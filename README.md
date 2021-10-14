@@ -448,6 +448,12 @@ Docker interfaces are:
 * docker0 interface
 * docker_gwbridge interface 
 
+### Extending iptables-docker
+
+You can extend or modify iptables-docker by editing:
+
+* src/iptables-docker.sh for the local install (sh)
+* roles/iptables-docker/templates/iptables-docker.sh.j2 template file for the automated install (ansible)
 
 ### Uninstall
 
