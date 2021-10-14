@@ -1,0 +1,6 @@
+---
+- name: reload iptables-docker
+  service:
+    name: iptables-docker
+    state: restarted
+    enabled: yes

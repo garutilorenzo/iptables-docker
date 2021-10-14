@@ -1,0 +1,31 @@
+{
+    if ( $0 ~ /^*/ ) {
+        in_nat=0
+        in_filter=0
+    }
+    if ( $0 ~ /^*filter/ ) {
+        in_filter=1
+        in_nat=0
+        print "*filter"
+        print ":DOCKER-USER - [0:0]"
+        print ":DOCKER - [0:0]"
+        print ":DOCKER-INGRESS - [0:0]"
+        print ":DOCKER-ISOLATION-STAGE-2 - [0:0]"
+        print ":DOCKER-ISOLATION-STAGE-1 - [0:0]"
+        print ":FORWARD DROP [0:0]"
+    }
+    if ( $0 ~ /^*nat/ ) {
+        in_nat=1
+        in_filter=0
+        print "*nat"
+        print ":PREROUTING ACCEPT [0:0]"
+        print ":OUTPUT ACCEPT [0:0]"
+        print ":POSTROUTING ACCEPT [0:0]"
+        print ":DOCKER - [0:0]"
+        print ":DOCKER-INGRESS - [0:0]"
+    }
+    if (in_nat==1 && ($3 ~ /^(POSTROUTING|PREROUTING|DOCKER|DOCKER-INGRESS|OUTPUT)$/)) {print $0}
+    if (in_filter==1 && ($3 ~ /^(FORWARD|DOCKER-ISOLATION-STAGE-1|DOCKER-ISOLATION-STAGE-2|DOCKER|DOCKER-INGRESS|DOCKER-USER)$/)) {print $0}
+    if (in_nat==1 && $0 ~ /^COMMIT/ ) {print "COMMIT"}
+    if (in_filter==1 && $0 ~ /^COMMIT/ ) {print "COMMIT"}
+}

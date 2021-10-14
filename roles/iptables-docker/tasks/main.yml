@@ -1,0 +1,9 @@
+---
+- name: Debug
+  debug:
+    msg: "{{ iptables_docker_uninstall }}"
+- include_tasks: iptables-legacy.yml
+- include_tasks: install.yml
+  when: iptables_docker_uninstall is false
+- include_tasks: uninstall.yml
+  when: iptables_docker_uninstall is true

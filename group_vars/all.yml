@@ -1,0 +1,15 @@
+---
+docker_preserve: yes
+swarm_enabled: no
+ebable_icmp_messages: yes
+swarm_cidr: 192.168.25.0/24
+ssh_allow_cidr: 0.0.0.0/0
+iptables_allow_rules:
+  - desc: "Allow port 6466 tcp from 192.168.25.0/24"
+    proto: tcp
+    port: 6446
+    from: 192.168.25.0/24
+  - desc: "Allow port 8443 tcp from 192.168.25.0/24"
+    proto: tcp
+    port: 8443
+    from: 192.168.25.0/24

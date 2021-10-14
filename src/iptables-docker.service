@@ -1,0 +1,13 @@
+[Unit]
+Description=Simple firewall script with docker rules preserve function
+Before=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/usr/local/sbin/
+ExecStart=/usr/local/sbin/iptables-docker.sh start
+ExecStop=/usr/local/sbin/iptables-docker.sh stop
+
+[Install]
+WantedBy=multi-user.target
