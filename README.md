@@ -439,6 +439,14 @@ Before install iptables-docker please read this notes:
 * both local instal and ansible install configure your system to use **iptables-legacy**
 * by default **only** port 22 is allowed
 * ufw and firewalld will be permanently **disabled**
+* filtering on all docker interfaces is disabled
+
+Docker interfaces are:
+
+* vethXXXXXX interfaces
+* br-XXXXXXXXXXX interfaces
+* docker0 interface
+* docker_gwbridge interface 
 
 
 ### Uninstall
