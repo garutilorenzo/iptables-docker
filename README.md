@@ -5,16 +5,16 @@
 ![GitHub](https://img.shields.io/github/license/garutilorenzo/iptables-docker)
 [![GitHub issues](https://img.shields.io/github/issues/garutilorenzo/iptables-docker)](https://github.com/garutilorenzo/iptables-docker/issues)
 
-### A bash solution to docker and iptables conflict
+### A bash solution for docker and iptables conflict
 
 If you’ve ever tried to setup firewall rules on the same machine where docker daemon is running you may have noticed that docker (by default) manipulate your iptables chains.
 If you want the full control of your iptables rules this might be a problem.
 
 ### Docker and iptables
 
-Docker is utilizing the iptables “nat” to resolve packets from and to its containers and "filter" for isolation purposes, by default docker creates some chains in your iptables setup:
+Docker is utilizing the iptables "nat" to resolve packets from and to its containers and "filter" for isolation purposes, by default docker creates some chains in your iptables setup:
 
-```console
+```
 sudo iptables -L
 
 Chain INPUT (policy ACCEPT)
@@ -246,7 +246,7 @@ we can see that:
 
 ### The solution
 
-The solution to this problem is a simple bash script (combined to an awk script) to manage our iptables rules.
+The solution for this problem is a simple bash script (combined to an awk script) to manage our iptables rules.
 In short the script parse the output of the *iptables-save* command and preserve a set of chains. The chains preserved are:
 
 for table nat:
