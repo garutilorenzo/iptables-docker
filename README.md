@@ -10,6 +10,18 @@
 If you’ve ever tried to setup firewall rules on the same machine where docker daemon is running you may have noticed that docker (by default) manipulate your iptables chains.
 If you want the full control of your iptables rules this might be a problem.
 
+Before you proceed read carefully the [important notes](#important-notes) section.
+
+### Table of Contents
+
+* [Docker and iptables](#docker-and-iptables)
+* [The problem](#the-problem)
+* [The solution](#the-solution)
+* [Usage](#usage)
+* [Test](#test-iptables-docker)
+* [Notes](#important-notes)
+* [Extending iptables-docker](#extending-iptables-docker)
+
 ### Docker and iptables
 
 Docker is utilizing the iptables "nat" to resolve packets from and to its containers and "filter" for isolation purposes, by default docker creates some chains in your iptables setup:
