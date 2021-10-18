@@ -1,6 +1,6 @@
 [Unit]
 Description=Simple firewall script with docker rules preserve function
-Before=network.target
+After=network.target docker.service
 
 [Service]
 Type=oneshot
