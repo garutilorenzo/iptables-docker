@@ -60,11 +60,11 @@ start() {
     $IPT -t nat    --flush
     $IPT -t mangle --flush
 
-    # Skip filter on docker ifaces
-    skip_docker_ifaces    
-
     # Preserve docker rules
     docker_restore
+
+    # Skip filter on docker ifaces
+    skip_docker_ifaces    
 
     ### BLOCK INPUT BY DEFAULT ALLOW OUTPUT ###
     $IPT -P INPUT DROP
