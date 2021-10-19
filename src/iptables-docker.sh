@@ -64,7 +64,7 @@ start() {
     docker_restore
 
     # Skip filter on docker ifaces
-    skip_docker_ifaces    
+    skip_docker_ifaces
 
     ### BLOCK INPUT BY DEFAULT ALLOW OUTPUT ###
     $IPT -P INPUT DROP
