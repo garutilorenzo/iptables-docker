@@ -1,32 +1,32 @@
 ---
   
 - name: render iptables-docker.sh
-  template: >
-    src=iptables-docker.sh.j2
-    dest=/usr/local/sbin/iptables-docker.sh
-    owner=root
-    group=root
-    mode=700
+  template:
+    src: iptables-docker.sh.j2
+    dest: /usr/local/sbin/iptables-docker.sh
+    owner: root
+    group: root
+    mode: 0700
   notify:
     - reload iptables-docker
 
 - name: copy awk.firewall
-  copy: >
-    src=awk.firewall
-    dest=/usr/local/sbin/awk.firewall
-    owner=root
-    group=root
-    mode=600
+  copy:
+    src: awk.firewall
+    dest: /usr/local/sbin/awk.firewall
+    owner: root
+    group: root
+    mode: 0600
   notify:
     - reload iptables-docker
 
 - name: copy iptables-docker.service
-  copy: >
-    src=iptables-docker.service
-    dest=/etc/systemd/system/iptables-docker.service
-    owner=root
-    group=root
-    mode=600
+  copy:
+    src: iptables-docker.service
+    dest: /etc/systemd/system/iptables-docker.service
+    owner: root
+    group: root
+    mode: 0600
 
 - name: reload systemd
   systemd:

@@ -7,19 +7,19 @@
     state: stopped
 
 - name: remove iptables-docker.sh
-  file: >
-    path=/usr/local/sbin/iptables-docker.sh
-    state=absent
+  file:
+    path: /usr/local/sbin/iptables-docker.sh
+    state: absent
 
 - name: remove awk.firewall
-  file: >
-    path=/usr/local/sbin/awk.firewall
-    state=absent
+  file:
+    path: /usr/local/sbin/awk.firewall
+    state: absent
 
 - name: remove iptables-docker.service
-  file: >
-    path=/etc/systemd/system/iptables-docker.service
-    state=absent
+  file:
+    path: /etc/systemd/system/iptables-docker.service
+    state: absent
 
 - name: reload systemd
   systemd:
