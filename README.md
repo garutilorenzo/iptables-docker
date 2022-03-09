@@ -116,7 +116,7 @@ curl -v http://192.168.25.200:8080
 
 **NOTE** the connection test is made using an external machine, not the same machine where the docker container is running.
 
-The "magic" iptables rules added also allow our containers to reach the outside world:
+Docker also add a "magic" iptables rule, which allow our container to reach the outside world:
 
 ```
 docker run --rm nginx curl ipinfo.io/ip
