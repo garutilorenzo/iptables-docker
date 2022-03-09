@@ -6,3 +6,6 @@ swarm_cidr: 192.168.1.0/24
 ssh_allow_cidr: 0.0.0.0/0
 iptables_allow_rules: []
 iptables_docker_uninstall: no
+firewall_services:
+  - ufw
+  - firewalld
