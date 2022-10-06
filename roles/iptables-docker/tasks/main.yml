@@ -1,18 +1,21 @@
 ---
-- include_tasks: 
+- name: Populate service facts
+  ansible.builtin.service_facts:
+
+- include_tasks:
     file: iptables-legacy.yml
     apply:
       tags: iptables-legacy,legacy
   tags: iptables-legacy,legacy
 
-- include_tasks: 
+- include_tasks:
     file: install.yml
     apply:
       tags: iptables-install,install
   tags: iptables-install,install
   when: iptables_docker_uninstall is false
 
-- include_tasks: 
+- include_tasks:
     file: uninstall.yml
     apply:
       tags: uninstall-install,uninstall

@@ -1,12 +1,12 @@
 ---
 
 - name: Disable firewall services
-  service: 
-    name: "{{ item }}" 
-    state: stopped 
+  service:
+    name: "{{ item }}"
+    state: stopped
     enabled: no
   with_items: "{{ firewall_services }}"
-  ignore_errors: yes
+  when: item in services
 
 - name: render iptables-docker.sh
   template:

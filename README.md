@@ -448,7 +448,7 @@ my-public-ip-address
 
 Before install iptables-docker please read this notes:
 
-* both local instal and ansible install configure your system to use **iptables-legacy**
+* both local install and ansible install configure your system to use **iptables-legacy**
 * by default **only** port 22 is allowed
 * ufw and firewalld will be permanently **disabled**
 * filtering on all docker interfaces is disabled

@@ -2,9 +2,9 @@
 - name: check iptables version
   shell: iptables --version
   register: iptables_version
-  ignore_errors: yes
+  changed_when: false
 
-- block:  
+- block:
     - alternatives:
         name: iptables
         path: /usr/sbin/iptables-legacy
