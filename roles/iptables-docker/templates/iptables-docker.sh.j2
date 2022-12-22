@@ -1,12 +1,18 @@
 #!/bin/sh
 
-cd "$(dirname "$0")"
+set -o errexit
+set -o nounset
+if [ "${TRACE-0}" -eq 1 ]; then set -o xtrace; fi
+
+cd "$(dirname "$0")" || exit 1
 
 dir=$(pwd)
 
 IPT=$(which iptables)
 
 interface=$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//")
+
+readonly backup_dir_firwall_rules="/tmp/backup/firewall/"
 
 #### util functions
 
@@ -27,18 +33,18 @@ skip_docker_ifaces() {
       if beginswith vet "$i"; then
           vet_value=${i%%@*}
           echo "Allow traffic on vet iface: $vet_value"
-          $IPT -A INPUT -i $vet_value -j ACCEPT
-          $IPT -A OUTPUT -o $vet_value -j ACCEPT
+          $IPT -A INPUT -i "$vet_value" -j ACCEPT
+          $IPT -A OUTPUT -o "$vet_value" -j ACCEPT
       fi
       if beginswith br- "$i"; then
           echo "Allow traffic on br- iface: $i"
-          $IPT -A INPUT -i $i -j ACCEPT
-          $IPT -A OUTPUT -o $i -j ACCEPT
+          $IPT -A INPUT -i "$i" -j ACCEPT
+          $IPT -A OUTPUT -o "$i" -j ACCEPT
       fi
       if beginswith docker "$i"; then
           echo "Allow traffic on docker iface: $i"
-          $IPT -A INPUT -i $i -j ACCEPT
-          $IPT -A OUTPUT -o $i -j ACCEPT
+          $IPT -A INPUT -i "$i" -j ACCEPT
+          $IPT -A OUTPUT -o "$i" -j ACCEPT
       fi
   done
 }
@@ -48,8 +54,8 @@ skip_docker_ifaces() {
 start() {
     echo "############ <START> ##############"
 
-    mkdir -p /tmp/backup/firewall
-    IPTABLES_SAVE_FILE="/tmp/backup/firewall/rules_`date +%Y%m%d%H%M%S%N`"
+    mkdir -p "$backup_dir_firwall_rules"
+    IPTABLES_SAVE_FILE="$backup_dir_firwall_rules/rules_$(date +%Y%m%d%H%M%S%N)"
     iptables-save -c >"$IPTABLES_SAVE_FILE"
 
     # flush all rules
@@ -93,7 +99,7 @@ start() {
     if [ -e /proc/sys/net/ipv4/conf/all/ip_filter ]; then
         for filtre in /proc/sys/net/ipv4/conf/*/rp_filter
         do
-            echo > 1 $filtre
+            echo > 1 "$filtre"
         done
     fi
     echo "[Anti-spoofing is ready]"
@@ -105,7 +111,7 @@ start() {
     echo "[Anti-synflood is ready]"
 
     ####################
-    # === Clean particulars paquets ===
+    # === Clean particulars packets ===
     #Make sure NEW incoming tcp connections are SYN packets
     $IPT -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
     # Packets with incoming fragments
@@ -154,15 +160,15 @@ start() {
 }
 
 docker_restore() {
-  awk -f $dir/awk.firewall <"$IPTABLES_SAVE_FILE" | iptables-restore
+  awk -f "$dir/awk.firewall" <"$IPTABLES_SAVE_FILE" | iptables-restore
 }
 
 stop() {
     ### OPEN ALL !!! ###
     echo "############ <STOP> ##############"
 
-    mkdir -p /tmp/backup/firewall
-    IPTABLES_SAVE_FILE="/tmp/backup/firewall/rules_`date +%Y%m%d%H%M%S%N`"
+    mkdir -p "$backup_dir_firwall_rules"
+    IPTABLES_SAVE_FILE="$backup_dir_firwall_rules/rules_$(date +%Y%m%d%H%M%S%N)"
     iptables-save -c >"$IPTABLES_SAVE_FILE"
 
     # set the default policy to ACCEPT
