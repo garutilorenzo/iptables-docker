@@ -50,6 +50,8 @@ start() {
 
     mkdir -p /tmp/backup/firewall
     IPTABLES_SAVE_FILE="/tmp/backup/firewall/rules_`date +%Y%m%d%H%M%S%N`"
+    touch "$IPTABLES_SAVE_FILE"
+    chmod 600 "$IPTABLES_SAVE_FILE"
     iptables-save -c >"$IPTABLES_SAVE_FILE"
 
     # flush all rules
@@ -163,6 +165,8 @@ stop() {
 
     mkdir -p /tmp/backup/firewall
     IPTABLES_SAVE_FILE="/tmp/backup/firewall/rules_`date +%Y%m%d%H%M%S%N`"
+    touch "$IPTABLES_SAVE_FILE"
+    chmod 600 "$IPTABLES_SAVE_FILE"
     iptables-save -c >"$IPTABLES_SAVE_FILE"
 
     # set the default policy to ACCEPT
