@@ -1,5 +1,9 @@
 #!/bin/sh
 
+set -o errexit
+set -o nounset
+if [ "${TRACE-0}" -eq 1 ]; then set -o xtrace; fi
+
 readonly SCRIPT_DIR=$(dirname -- "$0");
 
 echo "Set iptables to iptables-legacy"
