@@ -56,6 +56,9 @@ start() {
 
     mkdir -p "$backup_dir_firwall_rules"
     IPTABLES_SAVE_FILE="$backup_dir_firwall_rules/rules_$(date +%Y%m%d%H%M%S%N)"
+
+    touch "$IPTABLES_SAVE_FILE"
+    chmod 600 "$IPTABLES_SAVE_FILE"
     iptables-save -c >"$IPTABLES_SAVE_FILE"
 
     # flush all rules
@@ -159,6 +162,9 @@ stop() {
 
     mkdir -p "$backup_dir_firwall_rules"
     IPTABLES_SAVE_FILE="$backup_dir_firwall_rules/rules_$(date +%Y%m%d%H%M%S%N)"
+
+    touch "$IPTABLES_SAVE_FILE"
+    chmod 600 "$IPTABLES_SAVE_FILE"
     iptables-save -c >"$IPTABLES_SAVE_FILE"
 
     # set the default policy to ACCEPT

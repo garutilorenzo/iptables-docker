@@ -4,6 +4,8 @@ set -o errexit
 set -o nounset
 if [ "${TRACE-0}" -eq 1 ]; then set -o xtrace; fi
 
+readonly SCRIPT_DIR=$(dirname -- "$0");
+
 echo "Set iptables to iptables-legacy"
 
 iptables --version | grep legacy > /dev/null
@@ -24,15 +26,15 @@ systemctl disable firewalld
 
 echo "Install iptables-docker.sh"
 
-cp src/iptables-docker.sh /usr/local/sbin/
-cp src/awk.firewall /usr/local/sbin/
+cp "$SCRIPT_DIR/src/iptables-docker.sh" /usr/local/sbin/
+cp "$SCRIPT_DIR/src/awk.firewall" /usr/local/sbin/
 
 chmod 700 /usr/local/sbin/iptables-docker.sh
 chmod 600 /usr/local/sbin/awk.firewall
 
 echo "Create systemd unit"
 
-cp src/iptables-docker.service /etc/systemd/system/
+cp "$SCRIPT_DIR/src/iptables-docker.service" /etc/systemd/system/
 
 echo "Enable iptables-docker.service"
 
